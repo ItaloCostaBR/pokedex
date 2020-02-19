@@ -31,7 +31,7 @@ export default class Single extends Component {
     render() {
         const { loading, data } = this.state;
         return(
-            <section id="section-single">
+            <section id="section-single" className="padding-page">
                 <div className="container">
                     {
                         loading || !Object.entries(data).length
