@@ -1,0 +1,41 @@
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.card {
+    height: 100%;
+
+    &-title {
+        font-size: 18px;
+    }
+    figure {
+        position: relative;
+        max-width: 100px;
+        min-height: 100px;
+        margin: 15px auto 0;
+
+        img {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            transition: all .3s ease-in-out;
+        }
+
+        &.active {
+            .pokeball {
+                -webkit-animation:spin .5s linear infinite;
+                -moz-animation:spin .5s linear infinite;
+                animation:spin .5s linear infinite;
+                opacity: 0;
+            }
+            .pokemon {
+                opacity: 1!important;
+            }
+        }
+    }
+
+    .btn {
+        font-size: 13px;
+    }
+}

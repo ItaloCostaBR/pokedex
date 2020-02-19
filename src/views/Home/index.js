@@ -15,7 +15,7 @@ export default class Home extends Component {
         }
     }
 
-    getAllPokemon = async (url) => {
+    async getAllPokemon(url) {
         this.setState({...this.setState, loading: true})
 
         let response = await fetch(url);
@@ -42,7 +42,15 @@ export default class Home extends Component {
                         ? <Loading />
                         : (
                             Object.entries(this.state.data).length > 0
-                            ? <CardPokemon objectContent={this.state.data} />
+                            ? (
+                                <div className="row">
+                                    {this.state.data.map((item, key) =>
+                                        <div key={key} className="col-6 col-md-4 mb-3">
+                                            <CardPokemon infoPokemon={item} />
+                                        </div>
+                                    )}
+                                </div>
+                            )
                             : <h3 className="text-center">Nenhum Pokémon encontrado.</h3>
                         )
                     }
