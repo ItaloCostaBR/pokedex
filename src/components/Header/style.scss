@@ -1,5 +1,11 @@
 #header {
     background-color: #e63801;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: 9;
 
     .logo {
         max-width: 150px;
