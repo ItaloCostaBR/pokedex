@@ -58,7 +58,6 @@ export default class Home extends Component {
 
     render() {
         const { data, hasLoadMore, loading, loadingLoadMore } = this.state;
-        console.log(data)
         return(
             <section id="section-highlight" className="padding-page">
                 <div className="container">
