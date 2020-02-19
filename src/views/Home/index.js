@@ -7,11 +7,12 @@ export default class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
-            data: {},
+            data: [],
             loading: false,
+            loadingLoadMore: false,
+            hasLoadMore: false,
             error: false,
-            nextPage: '',
-            prevPage: '',
+            nextPageUrl: ''
         }
     }
 
@@ -22,10 +23,32 @@ export default class Home extends Component {
         return await response.json();
     }
 
+    async getMorePokemon() {
+        this.setState({...this.setState, loadingLoadMore: true})
+
+        let response = await fetch(this.state.nextPageUrl);
+        return await response.json();
+    }
+
+    loadMore = (e) => {
+        let button = e.currentTarget;
+        button.disabled = true;
+
+        this.getMorePokemon()
+        .then(res => {
+            this.setState({...this.setState, loadingLoadMore: false, data: [...this.state.data, ...res.results], nextPageUrl: res.next, hasLoadMore: res.next.length > 0})
+            button.disabled = false;
+        })
+        .catch(err => {
+            this.setState({...this.setState, loadingLoadMore: false})
+            console.log(err)
+        })
+    }
+
     componentDidMount() {
         this.getAllPokemon('https://pokeapi.co/api/v2/pokemon')
         .then(res => {
-            this.setState({...this.state, loading: false, data: res.results, nextPage: res.next, prevPage: res.previous})
+            this.setState({...this.state, loading: false, data: res.results, nextPageUrl: res.next, hasLoadMore: res.next.length > 0})
         })
         .catch(err => {
             this.setState({...this.state, loading: false, error: true})
@@ -34,21 +57,26 @@ export default class Home extends Component {
     }
 
     render() {
+        const { data, hasLoadMore, loading, loadingLoadMore } = this.state;
+        console.log(data)
         return(
             <section id="section-highlight" className="padding-page">
                 <div className="container">
                     {
-                        this.state.loading
+                        loading
                         ? <Loading />
                         : (
-                            Object.entries(this.state.data).length > 0
+                            Object.entries(data).length > 0
                             ? (
-                                <div className="row">
-                                    {this.state.data.map((item, key) =>
-                                        <div key={key} className="col-6 col-md-4 mb-3">
-                                            <CardPokemon infoPokemon={item} />
-                                        </div>
-                                    )}
+                                <div className="wrapper-content text-center">
+                                    <div className="row" id="wrapper-pokemon">
+                                        {data.map((item, key) =>
+                                            <div key={key} className="col-6 col-sm-4 col-lg-3 mb-3">
+                                                <CardPokemon infoPokemon={item} />
+                                            </div>
+                                        )}
+                                    </div>
+                                    {hasLoadMore ? <button type="button" className="btn btn-danger mt-3" onClick={element => this.loadMore(element)}>{loadingLoadMore ? 'Carregando...' : 'Ver mais'}</button> : ''}
                                 </div>
                             )
                             : <h3 className="text-center">Nenhum Pokémon encontrado.</h3>
