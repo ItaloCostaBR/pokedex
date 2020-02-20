@@ -10,6 +10,7 @@ import {
  import Footer from './components/Footer';
  import Home from './views/Home';
  import Single from './views/Single';
+ import Find from './views/Find';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
         <Header />
         <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/:pokemon" component={Single} />
+            <Route exact path="/find" component={Find} />
+            <Route exact path="/:name" component={Single} />
         </Switch>
         <Footer />
     </Router>

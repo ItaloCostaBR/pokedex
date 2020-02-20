@@ -1,0 +1,11 @@
+.wrapper-stats {
+    .card {
+        &-header {
+            background-color: transparent;
+        }
+        &-body {
+            padding: 8px 12px;
+            text-align: center;
+        }
+    }
+}

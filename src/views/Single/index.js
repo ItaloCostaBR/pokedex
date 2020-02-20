@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './style.scss';
 import Loading from '../../components/Loading';
+import Graphics from '../../components/Graphics';
 
 export default class Single extends Component {
     constructor(props){
@@ -16,12 +17,49 @@ export default class Single extends Component {
         let response = await fetch('https://pokeapi.co/api/v2/pokemon/'+pokemon);
         return await response.json();
     }
+    animateImage() {
+        let element = document.getElementById('image-pokemon');
+        setInterval(()=>{
+            if(element.classList.contains("active")) {
+                element.classList.remove('active');
+            } else {
+                element.classList.add('active');
+            }
+        }, 1500);
+    }
+
+    typeTranslate(type){
+        let tipos = {
+                    "grass":"Planta",
+                    "fire":"Fogo",
+                    "water":"Água",
+                    "bug":"Inseto",
+                    "poison":"Venenoso",
+                    "eletric":"Elétrico",
+                    "ground":"Terra",
+                    "fighting":"Lutador",
+                    "psychic":"Psíquico",
+                    "rock":"Pedra",
+                    "flying":"Voador",
+                    "ghost":"Fantasma",
+                    "ice":"Gelo",
+                    "dragon":"Dragão",
+                    "steel":"Metálico",
+                    "dark":"Noturno",
+                    "fairy":"Fada"
+                    }
+
+        tipos.map(value,i){
+            console.log(value, i);
+        }
+    }
+
     componentDidMount() {
         let params = this.props.match.params;
-        this.getDetailsPokemon(params.pokemon)
+        this.getDetailsPokemon(params.name)
         .then(res => {
             this.setState({...this.state, loading: false, data: res});
-            console.log(res)
+            this.animateImage();
         })
         .catch(err => {
             this.setState({...this.state, loading: false, error: true});
@@ -40,11 +78,21 @@ export default class Single extends Component {
                             <div className="wrapper-content">
                                 <h2 className="text-center title-pokemon">
                                     {data.name}
-                                    <figure>
-                                        <img src={data.sprites.back_default} alt={data.name} />
-                                        <img src={data.sprites.front_default} alt={data.name} />
+                                    <figure id="image-pokemon" className="active">
+                                        <img src={data.sprites.back_default} alt={data.name} className="back" style={{display: 'none'}} />
+                                        <img src={data.sprites.front_default} alt={data.name} className="front" />
                                     </figure>
                                 </h2>
+                                <div className="type-pokemon mb-3">
+                                    <ul className="list-group text-center">
+                                        <li className="list-group-item active">Tipo</li>
+                                        {data.types.map((value, i) =>
+
+                                         <li key={i} className="list-group-item">{value.type.name}</li>
+                                        )}
+                                    </ul>
+                                </div>
+                                <Graphics infoContent={data.stats} />
                             </div>
                         )
                     }

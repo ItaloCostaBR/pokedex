@@ -11,3 +11,13 @@ img {
 .padding-page {
     padding: 100px 0 30px;
 }
+.btn {
+    &-danger {
+        background-color: $red;
+        border-color: $red;
+    }
+    &-warning {
+        background-color: $yellow;
+        border-color: $yellow;
+    }
+}

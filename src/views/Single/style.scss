@@ -1,0 +1,37 @@
+#section-single {
+    .type-pokemon {
+        ul {
+            li {
+                font-size: 18px;
+                &.active {
+                    font-size: 20px;
+                    text-transform: uppercase;
+                    background-color: #e63801;
+                    border-color: #e63801;
+                }
+            }
+        }
+    }
+}
+#image-pokemon {
+    max-width: 100px;
+    min-height: 100px;
+    margin: 0 auto;
+    img {
+        margin: 0 auto;
+    }
+    .back {
+        display: block!important;
+    }
+    .front {
+        display: none!important;
+    }
+    &.active {
+        .back {
+            display: none!important;
+        }
+        .front {
+            display: block!important;
+        }
+    }
+}
