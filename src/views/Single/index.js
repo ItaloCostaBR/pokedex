@@ -30,29 +30,7 @@ export default class Single extends Component {
     }
 
     typeTranslate(type){
-        let tipos = {
-                    "grass":"Planta",
-                    "fire":"Fogo",
-                    "water":"Água",
-                    "bug":"Inseto",
-                    "poison":"Venenoso",
-                    "eletric":"Elétrico",
-                    "ground":"Terra",
-                    "fighting":"Lutador",
-                    "psychic":"Psíquico",
-                    "rock":"Pedra",
-                    "flying":"Voador",
-                    "ghost":"Fantasma",
-                    "ice":"Gelo",
-                    "dragon":"Dragão",
-                    "steel":"Metálico",
-                    "dark":"Noturno",
-                    "fairy":"Fada"
-                    }
 
-        // tipos.map(value,i){
-        //     console.log(value, i);
-        // }
     }
 
     componentDidMount() {
