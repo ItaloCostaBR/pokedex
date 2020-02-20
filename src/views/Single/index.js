@@ -11,6 +11,7 @@ export default class Single extends Component {
             loading: false,
             error: false
         }
+        this.animateImageTime = null;
     }
     async getDetailsPokemon(pokemon) {
         this.setState({...this.state, loading: true});
@@ -18,8 +19,8 @@ export default class Single extends Component {
         return await response.json();
     }
     animateImage() {
-        let element = document.getElementById('image-pokemon');
-        setInterval(()=>{
+        this.animateImageTime = setInterval(()=>{
+            let element = document.getElementById('image-pokemon');
             if(element.classList.contains("active")) {
                 element.classList.remove('active');
             } else {
@@ -49,9 +50,9 @@ export default class Single extends Component {
                     "fairy":"Fada"
                     }
 
-        tipos.map(value,i){
-            console.log(value, i);
-        }
+        // tipos.map(value,i){
+        //     console.log(value, i);
+        // }
     }
 
     componentDidMount() {
@@ -65,6 +66,9 @@ export default class Single extends Component {
             this.setState({...this.state, loading: false, error: true});
             console.log(err)
         })
+    }
+    componentWillUnmount() {
+        clearInterval(this.animateImageTime);
     }
     render() {
         const { loading, data } = this.state;
