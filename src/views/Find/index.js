@@ -8,7 +8,8 @@ export default class Find extends Component{
         this.state = {
             data: {},
             loading: false,
-            error: false
+            error: false,
+            nickname: null,
         }
     }
 
@@ -23,6 +24,12 @@ export default class Find extends Component{
         let response = await fetch('https://pokeapi.co/api/v2/pokemon/'+pokemon);
         return await response.json();
     }
+    
+    async setAnwers(data) {
+        this.setState({...this.state, loading: true});
+        let response = await fetch('https://pokedexapi-v1.herokuapp.com/api/v1/ranking', { method: 'POST', body: data });
+        return await response.json();
+    }
 
     componentDidMount(){
         let idPokemon = this.getRandomInt(0, 150);
@@ -35,6 +42,10 @@ export default class Find extends Component{
             this.setState({...this.state, loading: false, error: true});
             console.log(err)
         })
+
+        if(localStorage.getItem('nickname')){
+            this.setState({...this.state, nickname: localStorage.getItem('nickname')})
+        }
     }
 
     checkPokemon = (e) =>{
@@ -46,6 +57,7 @@ export default class Find extends Component{
             field.classList.remove('is-invalid');
             document.getElementById('tryAgain').classList.remove('d-none');
             this.evtShowPokemon();
+            this.sendAnswers();
         }else{
             field.classList.remove('is-valid');
             field.classList.add('is-invalid');
@@ -55,6 +67,38 @@ export default class Find extends Component{
     evtShowPokemon = (e) => {
         let element = document.getElementById('figureBlock');
         element.classList.add("active");
+    }
+
+    saveNickname(){
+        let nickname = document.getElementById('nicknameField').value;
+        localStorage.setItem('nickname', nickname);
+        this.setState({...this.state, nickname})
+    }
+
+    resetNickname(){
+        localStorage.removeItem('nickname');
+        this.setState({...this.state, nickname: null})
+    }
+
+    sendAnswers(){
+        if(!this.state.nickname){
+            document.getElementById('nicknameField').classList.add('is-invalid');
+        }else{
+            document.getElementById('nicknameField').classList.remove('is-invalid');
+
+            let body = {
+                nickname: this.state.nickname,
+                points: 1,
+            }
+
+            // this.setAnwers(body)
+            // .then(res => {
+            //     console.log(res)
+            // })
+            // .catch(err => {
+            //     console.log(err)
+            // })
+        }
     }
 
     render(){
@@ -67,13 +111,35 @@ export default class Find extends Component{
                         ? <Loading />
                         : (
                             <div className="wrapper-content">
-                                <h2 className="text-center title-pokemon">
-                                    Quem é esse Pokémon?
-                                    <figure id="figureBlock">
-                                        <img src={data.sprites.back_default}  className="pokemon" alt={data.name} />
-                                        <img src={data.sprites.front_default}  className="pokemon" alt={data.name} />
-                                    </figure>
-                                </h2>
+                                <div className="row">
+                                    <div className="col-lg-3 col-md-5 col-12">
+                                        { !this.state.nickname ?
+                                            <div className="input-group mb-3">
+                                                <input type="text" className="form-control" id="nicknameField" placeholder="Digite seu Nickname" />
+                                                <div className="input-group-append">
+                                                    <button className="btn btn-outline-secondary" onClick={() => this.saveNickname()}>Salvar</button>
+                                                </div>
+                                            </div>
+                                            : 
+                                            <div className="input-group mb-3">
+                                                <input type="text" className="form-control" id="nicknameFieldContent" value={this.state.nickname} disabled/>
+                                                <div className="input-group-append">
+                                                    <button className="btn btn-outline-secondary" onClick={() => this.resetNickname()}>Alterar</button>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-12 mt-2">
+                                        <h2 className="text-center title-pokemon">
+                                            Quem é esse Pokémon?
+                                            <figure id="figureBlock">
+                                                <img src={data.sprites.front_default} className="pokemon" alt={data.name} />
+                                            </figure>
+                                        </h2>
+                                    </div>
+                                </div>
                                 <div className="row">
                                     <div className="col-md-12 mt-2">
                                         <form className="form-inline justify-content" onSubmit={(event) => this.checkPokemon(event)}>
