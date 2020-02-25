@@ -30,7 +30,22 @@ export default class Single extends Component {
     }
 
     typeTranslate(type){
+        const types = [["grass","Planta"], ["poison","Veneno"], ["water","Água"],
+            ["bug","Inseto"], ["eletric","Elétrico"], ["ground","Terra"],
+            ["fighting","Lutador"], ["psychic","Psíquico"], ["rock","Pedra"],
+            ["flying","Voador"], ["ghost","Fantasma"], ["ice","Gelo"],
+            ["dragon","Dragão"], ["steel","Metálico"], ["dark","Noturno"],
+            ["fairy","Fada"],["fire", "Fogo"],["normal","Normal"]
 
+
+        ]
+        for (let i = 0, final = types.length; i < final ; i++) {
+            for (let j = 0, final = types.length; j < final ; j++) {
+                if(types[i][j]==type){
+                    return types[i][1];
+                }
+            }
+        }
     }
 
     componentDidMount() {
@@ -70,7 +85,7 @@ export default class Single extends Component {
                                         <li className="list-group-item active">Tipo</li>
                                         {data.types.map((value, i) =>
 
-                                         <li key={i} className="list-group-item">{value.type.name}</li>
+                                         <li key={i} className="list-group-item">{this.typeTranslate(value.type.name)}</li>
                                         )}
                                     </ul>
                                 </div>
