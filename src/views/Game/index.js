@@ -1,0 +1,172 @@
+import React, { Component } from 'react';
+import { Notification } from 'rsuite';
+import './style.scss';
+import Loading from '../../components/Loading';
+import { Alert } from 'rsuite';
+
+// eslint-disable-next-line no-extend-native
+String.prototype.shuffle = function () {
+    var a = this.split(""),
+        n = a.length;
+
+    for(var i = n - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = a[i];
+        a[i] = a[j];
+        a[j] = tmp;
+    }
+    return a.join("");
+}
+
+export default class Game extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            data: {},
+            loading: false,
+            error: false,
+            nickname: null,
+            hasNickname: false,
+            currentPokemon: '',
+            points: 0,
+        }
+    }
+
+    getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    async getRandomPokemon() {
+        let pokemon = this.getRandomInt(0, 807);
+        this.setState({...this.state, loading: true});
+        let response = await fetch('https://pokeapi.co/api/v2/pokemon/'+pokemon);
+        return await response.json();
+    }
+
+    async setAnwers(data) {
+        this.setState({...this.state, loading: true});
+        let response = await fetch('https://pokedexapi-v1.herokuapp.com/api/v1/ranking', { method: 'POST', body: data });
+        return await response.json();
+    }
+
+    checkPokemon = (e) =>{
+        e.preventDefault();
+        let field = document.getElementById('find');
+
+        if(field.value === this.state.data.name){
+            field.classList.add('is-valid');
+            field.classList.remove('is-invalid');
+            document.getElementById('tryAgain').classList.remove('d-none');
+            this.evtShowPokemon();
+            this.sendAnswers();
+        }else{
+            field.classList.remove('is-valid');
+            field.classList.add('is-invalid');
+        }
+    }
+
+    evtShowPokemon = (e) => {
+        let element = document.getElementById('figureBlock');
+        element.classList.add("active");
+    }
+
+    startGame(e){
+        e.preventDefault();
+        let nickname = document.getElementById('nicknameField').value;
+
+        if(nickname === '') {
+            Notification.error({title: 'Ops!', description: 'O campo é obrigatório.'});
+        } else {
+            this.setState({...this.state, loading: true});
+            this.getRandomPokemon()
+            .then(res => {
+                this.setState({...this.state, loading: false, nickname: nickname, hasNickname: true, data: res, currentPokemon: res.name});
+                console.log(res)
+            })
+            .catch(err => {
+                this.setState({...this.state, loading: false, error: true});
+                console.log(err)
+            })
+        }
+    }
+
+    sendAnswers(){
+        if(!this.state.nickname){
+            document.getElementById('nicknameField').classList.add('is-invalid');
+        }else{
+            document.getElementById('nicknameField').classList.remove('is-invalid');
+
+            // let body = {
+            //     nickname: this.state.nickname,
+            //     points: 1,
+            // }
+
+            // this.setAnwers(body)
+            // .then(res => {
+            //     console.log(res)
+            // })
+            // .catch(err => {
+            //     console.log(err)
+            // })
+        }
+    }
+
+    render(){
+        const { loading, data, hasNickname, nickname, currentPokemon } = this.state;
+        return (
+            <section id="section-game" className="padding-page">
+                <div className="container">
+                    {
+                        loading
+                        ? <Loading />
+                        : (
+                            <div className="wrapper-content">
+                                { !hasNickname ?
+                                    <div className="card my-5">
+                                        <div className="card-header text-center">
+                                            Simbora!
+                                        </div>
+                                        <div className="card-body">
+                                            <blockquote className="blockquote mb-0">
+                                                <form onSubmit={(e) => this.startGame(e)} method="POST">
+                                                    <input type="text" className="form-control" id="nicknameField" placeholder="Digite seu Nickname" />
+                                                    <div className="input-group-append justify-content-center">
+                                                        <button className="btn btn-danger" type="submit">Iniciar</button>
+                                                    </div>
+                                                </form>
+                                                <div className="blockquote-footer">Pare de tentar e comece a desistir!</div>
+                                            </blockquote>
+                                        </div>
+                                    </div>
+                                    : (
+                                        <div className="wrapper-game">
+                                            <div className="row">
+                                                <div className="col-md-12 mt-2">
+                                                    <h2 className="text-center title-pokemon">
+                                                        <span>{nickname}</span>, quem é esse Pokémon?
+                                                        <figure id="figureBlock">
+                                                            <img src={data.sprites.front_default} className="pokemon" alt="pokemon" />
+                                                        </figure>
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                            <div className="form-send-item">
+                                                <form className="text-center" onSubmit={(event) => this.checkPokemon(event)}>
+                                                        <input type="text" id="find" className="findInput form-control w-100" placeholder="Digite o nome aqui"  />
+                                                        <button className="btn btn-warning my-4 mr-2" onClick={() => Alert.info('O nome desse pokémon é: '+currentPokemon.shuffle(), 5000)}>Ver dica</button>
+                                                        <button className="btn btn-danger my-4 ml-2">Enviar</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            </div>
+                        )
+                    }
+                </div>
+            </section>
+        );
+    }
+}

@@ -10,7 +10,7 @@ import {
  import Footer from './components/Footer';
  import Home from './views/Home';
  import Single from './views/Single';
- import Find from './views/Find';
+ import Game from './views/Game';
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
         <Header />
         <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/game" component={Find} />
+            <Route exact path="/game" component={Game} />
             <Route exact path="/:name" component={Single} />
         </Switch>
         <Footer />
