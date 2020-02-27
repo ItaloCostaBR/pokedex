@@ -1,8 +1,16 @@
 #footer {
-    background-color: #e63801;
+    position: relative;
+    background-color: #b41214;
     color: #ffffff;
+    z-index: 4;
 
     h5 {
         font-size: 12px;
+    }
+    @media screen and (min-width: 768px){
+        h5 {
+            font-size: 14px;
+            padding: 25px 0!important;
+        }
     }
 }

@@ -1,0 +1,56 @@
+@keyframes zoomInOut {
+    0% {
+        transform: scale(.9,.9);
+    }
+    50% {
+        transform: scale(1.1,1.1);
+    }
+    100% {
+        transform: scale(.9,.9);
+    }
+}
+
+#section-home {
+    .control-game {
+        position: fixed;
+        right: 5px;
+        bottom: 5px;
+        z-index: 3;
+        cursor: pointer;
+        background-color: #b41214;
+        margin: 0 auto;
+        border: 1px solid #030303;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+        padding: 5px;
+        animation: zoomInOut 2s infinite;
+    }
+
+    @media screen and (min-width: 768px){
+        .control-game {
+            right: 10px;
+            bottom: 10px;
+            width: 60px;
+            height: 60px;
+        }
+    }
+}
+#wrapper-pokemon {
+    margin: 0 -10px;
+
+    .col-card {
+        padding: 0 10px;
+    }
+
+    @media screen and (min-width: 768px){
+        margin: 0 -15px;
+
+        .col-card {
+            padding: 0 15px;
+        }
+    }
+}

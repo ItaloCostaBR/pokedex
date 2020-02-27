@@ -24,7 +24,7 @@ export default class Find extends Component{
         let response = await fetch('https://pokeapi.co/api/v2/pokemon/'+pokemon);
         return await response.json();
     }
-    
+
     async setAnwers(data) {
         this.setState({...this.state, loading: true});
         let response = await fetch('https://pokedexapi-v1.herokuapp.com/api/v1/ranking', { method: 'POST', body: data });
@@ -86,10 +86,10 @@ export default class Find extends Component{
         }else{
             document.getElementById('nicknameField').classList.remove('is-invalid');
 
-            let body = {
-                nickname: this.state.nickname,
-                points: 1,
-            }
+            // let body = {
+            //     nickname: this.state.nickname,
+            //     points: 1,
+            // }
 
             // this.setAnwers(body)
             // .then(res => {
@@ -120,7 +120,7 @@ export default class Find extends Component{
                                                     <button className="btn btn-outline-secondary" onClick={() => this.saveNickname()}>Salvar</button>
                                                 </div>
                                             </div>
-                                            : 
+                                            :
                                             <div className="input-group mb-3">
                                                 <input type="text" className="form-control" id="nicknameFieldContent" value={this.state.nickname} disabled/>
                                                 <div className="input-group-append">

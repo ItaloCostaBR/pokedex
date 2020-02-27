@@ -41,7 +41,7 @@ export default class Single extends Component {
         ]
         for (let i = 0, final = types.length; i < final ; i++) {
             for (let j = 0, final = types.length; j < final ; j++) {
-                if(types[i][j]==type){
+                if(types[i][j]===type){
                     return types[i][1];
                 }
             }

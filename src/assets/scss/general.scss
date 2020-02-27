@@ -1,5 +1,6 @@
 body {
     background-color: #e6e6e6;
+    color: $black;
 }
 a {
     color: inherit!important;
@@ -21,9 +22,23 @@ img {
     &-danger {
         background-color: $red;
         border-color: $red;
+        color: $white!important;
     }
     &-warning {
         background-color: $yellow;
         border-color: $yellow;
+        color: $black!important;
+    }
+}
+.alert {
+    &-danger {
+        background-color: $red;
+        border-color: $red;
+        color: $white;
+    }
+    &-warning {
+        background-color: $yellow;
+        border-color: $yellow;
+        color: $white;
     }
 }

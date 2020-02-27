@@ -19,7 +19,7 @@ function App() {
         <Header />
         <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/find" component={Find} />
+            <Route exact path="/game" component={Find} />
             <Route exact path="/:name" component={Single} />
         </Switch>
         <Footer />
