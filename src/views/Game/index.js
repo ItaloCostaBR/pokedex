@@ -30,7 +30,8 @@ export default class Game extends Component {
             currentPokemon: '',
             pokemonNotFound: false,
             qtdPoints: 0,
-            qtdQuestions: 0
+            qtdQuestions: 0,
+            finished: false,
         }
     }
 
@@ -82,15 +83,20 @@ export default class Game extends Component {
             this.evtShowPokemon();
 
             setTimeout(() => {
-                this.setState({...this.state, loading: true});
-                this.getRandomPokemon()
-                .then(res => {
-                    this.setState({...this.state, loading: false, data: res, currentPokemon: res.name, pokemonNotFound: !res.sprites.front_default });
-                })
-                .catch(err => {
-                    this.setState({...this.state, loading: false, error: true});
-                    console.log(err)
-                })
+                if(this.state.qtdQuestions > 2) {
+                        newState = {...newState, finished: true};
+                        Notification.success({title: 'Fim de jogo! :)', duration: 3000});
+                } else {
+                    this.setState({...this.state, loading: true});
+                    this.getRandomPokemon()
+                    .then(res => {
+                        this.setState({...this.state, loading: false, data: res, currentPokemon: res.name, pokemonNotFound: !res.sprites.front_default });
+                    })
+                    .catch(err => {
+                        this.setState({...this.state, loading: false, error: true});
+                        console.log(err)
+                    })
+                }
             }, 4000);
         }
         newState = {...newState, qtdQuestions: this.state.qtdQuestions + 1};
@@ -112,7 +118,7 @@ export default class Game extends Component {
             this.setState({...this.state, loading: true});
             this.getRandomPokemon()
             .then(res => {
-                this.setState({...this.state, loading: false, nickname: nickname, hasNickname: true, data: res, currentPokemon: res.name, pokemonNotFound: !res.sprites.front_default });
+                this.setState({...this.state, loading: false, nickname: nickname, hasNickname: true, data: res, currentPokemon: res.name, pokemonNotFound: !res.sprites.front_default, qtdQuestions: this.state.qtdQuestions + 1 });
             })
             .catch(err => {
                 this.setState({...this.state, loading: false, error: true});
