@@ -28,7 +28,9 @@ export default class Game extends Component {
             nickname: null,
             hasNickname: false,
             currentPokemon: '',
-            points: 0,
+            pokemonNotFound: false,
+            qtdPoints: 0,
+            qtdQuestions: 0
         }
     }
 
@@ -51,20 +53,48 @@ export default class Game extends Component {
         return await response.json();
     }
 
-    checkPokemon = (e) =>{
+    answerQuestion = (e) =>{
         e.preventDefault();
-        let field = document.getElementById('find');
 
-        if(field.value === this.state.data.name){
-            field.classList.add('is-valid');
-            field.classList.remove('is-invalid');
-            document.getElementById('tryAgain').classList.remove('d-none');
-            this.evtShowPokemon();
-            this.sendAnswers();
-        }else{
+        let field = document.getElementById('find');
+        let btn = document.getElementById('btn-submit-answer');
+        let newState = {...this.state};
+
+        if(field.value === '') {
+            field.placeholder = "Campo obrigatório"
             field.classList.remove('is-valid');
             field.classList.add('is-invalid');
+        } else {
+            btn.disabled = true;
+
+            if(field.value === this.state.currentPokemon){
+                newState = {...newState, qtdPoints: this.state.qtdPoints + 1};
+
+                field.classList.add('is-valid');
+                field.classList.remove('is-invalid');
+                Notification.success({title: 'Parabéns! :)', duration: 3000});
+            }else{
+                field.classList.remove('is-valid');
+                field.classList.add('is-invalid');
+                Notification.error({title: 'Ops! :(', description: 'O nome certo é: '+this.state.currentPokemon, duration: 3000});
+            }
+
+            this.evtShowPokemon();
+
+            setTimeout(() => {
+                this.setState({...this.state, loading: true});
+                this.getRandomPokemon()
+                .then(res => {
+                    this.setState({...this.state, loading: false, data: res, currentPokemon: res.name, pokemonNotFound: !res.sprites.front_default });
+                })
+                .catch(err => {
+                    this.setState({...this.state, loading: false, error: true});
+                    console.log(err)
+                })
+            }, 4000);
         }
+        newState = {...newState, qtdQuestions: this.state.qtdQuestions + 1};
+        this.setState(newState);
     }
 
     evtShowPokemon = (e) => {
@@ -82,14 +112,25 @@ export default class Game extends Component {
             this.setState({...this.state, loading: true});
             this.getRandomPokemon()
             .then(res => {
-                this.setState({...this.state, loading: false, nickname: nickname, hasNickname: true, data: res, currentPokemon: res.name});
-                console.log(res)
+                this.setState({...this.state, loading: false, nickname: nickname, hasNickname: true, data: res, currentPokemon: res.name, pokemonNotFound: !res.sprites.front_default });
             })
             .catch(err => {
                 this.setState({...this.state, loading: false, error: true});
                 console.log(err)
             })
         }
+    }
+
+    nextPokemon() {
+        this.setState({...this.state, loading: true});
+            this.getRandomPokemon()
+            .then(res => {
+                this.setState({...this.state, loading: false, data: res, currentPokemon: res.name, pokemonNotFound: !res.sprites.front_default });
+            })
+            .catch(err => {
+                this.setState({...this.state, loading: false, error: true});
+                console.log(err)
+            })
     }
 
     sendAnswers(){
@@ -114,7 +155,7 @@ export default class Game extends Component {
     }
 
     render(){
-        const { loading, data, hasNickname, nickname, currentPokemon } = this.state;
+        const { loading, data, hasNickname, nickname, currentPokemon, pokemonNotFound } = this.state;
         return (
             <section id="section-game" className="padding-page">
                 <div className="container">
@@ -141,6 +182,7 @@ export default class Game extends Component {
                                         </div>
                                     </div>
                                     : (
+                                        !pokemonNotFound ?
                                         <div className="wrapper-game">
                                             <div className="row">
                                                 <div className="col-md-12 mt-2">
@@ -153,13 +195,16 @@ export default class Game extends Component {
                                                 </div>
                                             </div>
                                             <div className="form-send-item">
-                                                <form className="text-center" onSubmit={(event) => this.checkPokemon(event)}>
+                                                <form className="text-center" onSubmit={(event) => this.answerQuestion(event)}>
                                                         <input type="text" id="find" className="findInput form-control w-100" placeholder="Digite o nome aqui"  />
-                                                        <button className="btn btn-warning my-4 mr-2" onClick={() => Alert.info('O nome desse pokémon é: '+currentPokemon.shuffle(), 5000)}>Ver dica</button>
-                                                        <button className="btn btn-danger my-4 ml-2">Enviar</button>
+                                                        <button type="button" className="btn btn-warning my-4 mr-2" onClick={() => Alert.info('O nome desse pokémon é: '+currentPokemon.shuffle(), 5000)}>Ver dica</button>
+                                                        <button type="submit" id="btn-submit-answer" className="btn btn-danger my-4 ml-2">Enviar</button>
                                                 </form>
                                             </div>
                                         </div>
+                                        : (
+                                            <button className="btn btn-warning my-5" onClick={this.nextPokemon()}>Pular pokémon</button>
+                                        )
                                     )
                                 }
                             </div>
