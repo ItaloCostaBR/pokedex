@@ -200,7 +200,7 @@ export default class Game extends Component {
                                                         <h3 className="display-4">Parabéns, {nickname}!</h3>
                                                         <p className="lead">Clique no botão abaixo e veja sua classificação no ranking</p>
                                                         <hr className="my-4" />
-                                                        <Link to="/" className="btn btn-danger mr-2">Ver ranking</Link>
+                                                        <Link to="/ranking" className="btn btn-danger mr-2">Ver ranking</Link>
                                                     </div>
                                                 </div>
                                             ) : (

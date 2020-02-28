@@ -42,3 +42,31 @@ img {
         color: $white;
     }
 }
+
+.control-game {
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+    z-index: 3;
+    cursor: pointer;
+    background-color: #b41214;
+    margin: 0 auto;
+    border: 1px solid #030303;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    padding: 5px;
+    animation: zoomInOut 2s infinite;
+}
+
+@media screen and (min-width: 768px){
+    .control-game {
+        right: 10px;
+        bottom: 10px;
+        width: 60px;
+        height: 60px;
+    }
+}

@@ -11,6 +11,7 @@ import {
  import Home from './views/Home';
  import Single from './views/Single';
  import Game from './views/Game';
+ import Ranking from './views/Ranking';
 
 function App() {
   return (
@@ -19,8 +20,9 @@ function App() {
         <Header />
         <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/pokemon/:name" component={Single} />
             <Route exact path="/game" component={Game} />
-            <Route exact path="/:name" component={Single} />
+            <Route exact path="/ranking" component={Ranking} />
         </Switch>
         <Footer />
     </Router>

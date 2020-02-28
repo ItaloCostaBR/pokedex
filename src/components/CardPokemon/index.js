@@ -48,7 +48,7 @@ export default class CardPokemon extends Component {
                 </figure>
                 <div className="card-body">
                     <h5 className="card-title text-uppercase">{infoPokemon.name}</h5>
-                    <Link to={location => `/${infoPokemon.name}`} className="btn btn-warning">Saiba mais</Link>
+                    <Link to={location => `/pokemon/${infoPokemon.name}`} className="btn btn-warning">Saiba mais</Link>
                 </div>
             </div>
         )
