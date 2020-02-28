@@ -25,7 +25,6 @@ export default class Ranking extends Component {
         this.getInfoRanking()
         .then(res => {
             this.setState({...this.setState, loading: false, data: res.data})
-            console.log(res);
         })
         .catch(err => {
             this.setState({...this.setState, loading: false, error: true})
