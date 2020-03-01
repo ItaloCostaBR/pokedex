@@ -3,6 +3,8 @@ import CardPokemon from '../../components/CardPokemon';
 import Loading from '../../components/Loading';
 import './style.scss';
 
+
+
 export default class Home extends Component {
     constructor(props){
         super(props);
@@ -12,7 +14,8 @@ export default class Home extends Component {
             loadingLoadMore: false,
             hasLoadMore: false,
             error: false,
-            nextPageUrl: ''
+            nextPageUrl: '',
+            pokeCompare: []
         }
     }
 
@@ -29,7 +32,21 @@ export default class Home extends Component {
         let response = await fetch(this.state.nextPageUrl);
         return await response.json();
     }
-
+    comparePoke(e,element){
+        
+        if(element.currentTarget.classList.contains("clicked")){
+            element.currentTarget.classList.remove("clicked")
+            let nArray = this.state.pokeCompare;
+            nArray.splice(nArray.indexOf(e),1);
+            this.setState({pokeCompare:nArray})
+        }else{
+            element.currentTarget.classList.add("clicked");
+            let nArray = this.state.pokeCompare;
+            nArray.push(e);
+            this.setState({pokeCompare:nArray})
+        }
+    
+    }
     loadMore = (e) => {
         let button = e.currentTarget;
         button.disabled = true;
@@ -68,16 +85,16 @@ export default class Home extends Component {
                             Object.entries(data).length > 0
                             ? (
                                 <div className="wrapper-content text-center">
+                                    
                                     <div className="row" id="wrapper-pokemon">
                                         {data.map((item, key) =>
-                                            <div key={key} className="col-6 col-sm-4 col-lg-3 mb-3">
+                                            <div key={key} onClick={(element)=>this.comparePoke(item.name,element)} className="col-6 col-sm-4 col-lg-3 mb-3 poke">
                                                 <CardPokemon infoPokemon={item} />
                                             </div>
                                         )}
                                     </div>
                                     {hasLoadMore ? <button type="button" className="btn btn-danger mt-3" onClick={element => this.loadMore(element)}>{loadingLoadMore ? 'Carregando...' : 'Ver mais'}</button> : ''}
-                                </div>
-                            )
+                                </div>)
                             : <h3 className="text-center">Nenhum Pokémon encontrado.</h3>
                         )
                     }

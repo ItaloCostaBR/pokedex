@@ -1,0 +1,13 @@
+#wrapper-pokemon{
+    .poke{
+        &:active{
+            transform: scale(1.05);
+        }
+        &:hover{
+            cursor: pointer;
+        }
+        &.clicked{
+            transform: scale(1.05);
+        }
+    }
+}

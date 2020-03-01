@@ -19,6 +19,7 @@ export default class CardPokemon extends Component {
         return await response.json();
     }
 
+
     evtShowPokemon = (e) => {
         let element = e.currentTarget;
         // if(element.classList.contains("active")) {
