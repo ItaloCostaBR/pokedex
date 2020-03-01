@@ -30,7 +30,7 @@ export default class Graphics extends Component {
                 <div className="row">
                 {
                     infoContent.map((item, key) =>
-                        <div key={key} className="col-4 col-sm-2 mb-3">
+                        <div key={key} className="col-6 col-sm-4 mb-3">
                             <div className="card">
                                 <div className="card-header">
                                     <Circle percent={item.base_stat} strokeColor="#08398b" />

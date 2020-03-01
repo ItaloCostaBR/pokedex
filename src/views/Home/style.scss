@@ -1,4 +1,29 @@
-#wrapper-pokemon{
+@keyframes zoomInOut {
+    0% {
+        transform: scale(.9,.9);
+    }
+    50% {
+        transform: scale(1.1,1.1);
+    }
+    100% {
+        transform: scale(.9,.9);
+    }
+}
+
+#wrapper-pokemon {
+    margin: 0 -10px;
+
+    .col-card {
+        padding: 0 10px;
+    }
+
+    @media screen and (min-width: 768px){
+        margin: 0 -15px;
+
+        .col-card {
+            padding: 0 15px;
+        }
+    }
     .poke{
         &:active{
             transform: scale(1.05);

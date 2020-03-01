@@ -4,9 +4,14 @@
 
 .card {
     height: 100%;
+    color: #000000;
 
     &-title {
-        font-size: 18px;
+        font-size: 14px;
+        line-height: 1.2;
+    }
+    &-body {
+        padding: 10px;
     }
     figure {
         position: relative;
@@ -20,6 +25,8 @@
             right: 0;
             top: 0;
             transition: all .3s ease-in-out;
+            margin: 0 auto;
+            max-width: 100%;
         }
 
         &.active {
@@ -37,5 +44,14 @@
 
     .btn {
         font-size: 13px;
+    }
+
+    @media screen and (min-width: 768px){
+        &-title {
+            font-size: 18px;
+        }
+        .btn {
+            font-size: 14px;
+        }
     }
 }

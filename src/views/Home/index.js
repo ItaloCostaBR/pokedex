@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import CardPokemon from '../../components/CardPokemon';
 import Loading from '../../components/Loading';
 import './style.scss';
+import { Link } from 'react-router-dom';
+import controlGame from '../../assets/images/icon-control.png';
 
 
 
@@ -76,7 +78,7 @@ export default class Home extends Component {
     render() {
         const { data, hasLoadMore, loading, loadingLoadMore } = this.state;
         return(
-            <section id="section-highlight" className="padding-page">
+            <section id="section-home" className="padding-page">
                 <div className="container">
                     {
                         loading
@@ -85,7 +87,11 @@ export default class Home extends Component {
                             Object.entries(data).length > 0
                             ? (
                                 <div className="wrapper-content text-center">
-                                    
+                                    <Link to="/game">
+                                        <figure className="control-game">
+                                            <img src={controlGame} alt="control-game" />
+                                        </figure>
+                                    </Link>
                                     <div className="row" id="wrapper-pokemon">
                                         {data.map((item, key) =>
                                             <div key={key} onClick={(element)=>this.comparePoke(item.name,element)} className="col-6 col-sm-4 col-lg-3 mb-3 poke">
