@@ -43,7 +43,7 @@ export default class Game extends Component {
     }
 
     async getRandomPokemon() {
-        let pokemon = this.getRandomInt(1, 807);
+        let pokemon = this.getRandomInt(1, 151);
         this.setState({...this.state, loading: true});
         let response = await fetch('https://pokeapi.co/api/v2/pokemon/'+pokemon);
         return await response.json();
