@@ -57,7 +57,6 @@ export default class Game extends Component {
         for ( var key in data ) {
             form_data.append(key, data[key]);
         }
-        console.log(form_data)
         let response = await fetch('https://pokedexapi-v1.herokuapp.com/api/v1/ranking', { method: 'POST', body: form_data });
         return await response.json();
     }
