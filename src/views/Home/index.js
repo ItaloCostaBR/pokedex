@@ -41,7 +41,7 @@ export default class Home extends Component {
             let nArray = this.state.pokeCompare;
             nArray.splice(nArray.indexOf(e),1);
             this.setState({pokeCompare:nArray})
-        }else{
+        }else if(this.state.pokeCompare.length < 3){
             element.currentTarget.classList.add("clicked");
             let nArray = this.state.pokeCompare;
             nArray.push(e);
