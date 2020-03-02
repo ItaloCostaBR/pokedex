@@ -42,7 +42,7 @@ export default class CardPokemon extends Component {
     render() {
         const { infoPokemon, error, image } = this.state;
         return(
-            <div className="card text-center">
+            <div className="card text-center poke">
                 <figure className="card-img-top" onClick={element => this.evtShowPokemon(element)}>
                     <img src={imageDefault} className="pokeball" alt={infoPokemon.name} />
                     <img src={error || image === '' ? imageDefault : image } className="pokemon" alt={infoPokemon.name} style={{opacity: "0"}} />

@@ -35,14 +35,13 @@ export default class Home extends Component {
         return await response.json();
     }
     comparePoke(e,element){
-        
-        if(element.currentTarget.classList.contains("clicked")){
-            element.currentTarget.classList.remove("clicked")
+        if(element.currentTarget.children[0].classList.contains("clicked")){
+            element.currentTarget.children[0].classList.remove("clicked")
             let nArray = this.state.pokeCompare;
             nArray.splice(nArray.indexOf(e),1);
             this.setState({pokeCompare:nArray})
         }else if(this.state.pokeCompare.length < 3){
-            element.currentTarget.classList.add("clicked");
+            element.currentTarget.children[0].classList.add("clicked");
             let nArray = this.state.pokeCompare;
             nArray.push(e);
             this.setState({pokeCompare:nArray})
@@ -87,14 +86,14 @@ export default class Home extends Component {
                             Object.entries(data).length > 0
                             ? (
                                 <div className="wrapper-content text-center">
-                                    <Link to="/game">
+                                    <Link to={location => `/game/${this.state.pokeCompare.join().replace(",","&").replace(",","&")}`}>
                                         <figure className="control-game">
                                             <img src={controlGame} alt="control-game" />
                                         </figure>
                                     </Link>
                                     <div className="row" id="wrapper-pokemon">
                                         {data.map((item, key) =>
-                                            <div key={key} onClick={(element)=>this.comparePoke(item.name,element)} className="col-6 col-sm-4 col-lg-3 mb-3 poke">
+                                            <div key={key} onClick={(element)=>this.comparePoke(item.name,element)} className="col-6 col-sm-4 col-lg-3 mb-3">
                                                 <CardPokemon infoPokemon={item} />
                                             </div>
                                         )}
