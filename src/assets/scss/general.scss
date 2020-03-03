@@ -62,6 +62,25 @@ img {
     animation: zoomInOut 2s infinite;
 }
 
+.compara-poke {
+    position: fixed;
+    right: 25px;
+    bottom: 48vh;
+    z-index: 3;
+    cursor: pointer;
+    background-color: #b41214;
+    margin: 0 auto;
+    border: 1px solid #030303;
+    width: 75px;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    padding: 5px;
+    animation: easeIn 1s;
+}
+
 @media screen and (min-width: 768px){
     .control-game {
         right: 10px;

@@ -4,6 +4,7 @@ import Loading from '../../components/Loading';
 import './style.scss';
 import { Link } from 'react-router-dom';
 import controlGame from '../../assets/images/icon-control.png';
+import comparaIcon from '../../assets/images/compare.png';
 
 
 
@@ -89,6 +90,11 @@ export default class Home extends Component {
                                     <Link to={location => `/game/${this.state.pokeCompare.join().replace(",","&").replace(",","&")}`}>
                                         <figure className="control-game">
                                             <img src={controlGame} alt="control-game" />
+                                        </figure>
+                                    </Link>
+                                    <Link hidden={this.state.pokeCompare.length<2} to={location => `/game/${this.state.pokeCompare.join().replace(",","&").replace(",","&")}`}>
+                                        <figure className="compara-poke">
+                                            <img src={comparaIcon} alt="compara-icon" />
                                         </figure>
                                     </Link>
                                     <div className="row" id="wrapper-pokemon">
