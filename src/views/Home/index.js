@@ -87,12 +87,12 @@ export default class Home extends Component {
                             Object.entries(data).length > 0
                             ? (
                                 <div className="wrapper-content text-center">
-                                    <Link to={location => `/game/${this.state.pokeCompare.join().replace(",","&").replace(",","&")}`}>
+                                    <Link to={location => `/game/`}>
                                         <figure className="control-game">
                                             <img src={controlGame} alt="control-game" />
                                         </figure>
                                     </Link>
-                                    <Link hidden={this.state.pokeCompare.length<2} to={location => `/game/${this.state.pokeCompare.join().replace(",","&").replace(",","&")}`}>
+                                    <Link hidden={this.state.pokeCompare.length<2} to={location => `/compare/${this.state.pokeCompare.join().replace(",","&").replace(",","&")}`}>
                                         <figure className="compara-poke">
                                             <img src={comparaIcon} alt="compara-icon" />
                                         </figure>

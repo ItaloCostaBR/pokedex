@@ -6,10 +6,12 @@ export default class CardCompare extends Component {
         super(props);
         this.state = {
             namePokemons: props.poke,
-            infoPokemon: []
+            infoPokemon: [],
+            loading: false
         };
     }
     async getInfoPokemon (e) {
+        this.setState({...this.setState, loading: true})
         let response = await fetch("https://pokeapi.co/api/v2/pokemon/"+e);
         return await response.json();
     }
@@ -22,6 +24,7 @@ export default class CardCompare extends Component {
             
             this.getInfoPokemon(e)
             .then(res => {
+                this.setState({...this.setState, loading: false})
                 newArray = this.state.infoPokemon;
                 newArray.push(res);
                 
@@ -31,7 +34,7 @@ export default class CardCompare extends Component {
             })
             .catch(err => {
                 console.log(err);
-                this.setState({...this.state})
+                this.setState({...this.setState, loading: false})
             })
         })
     }
@@ -43,7 +46,7 @@ export default class CardCompare extends Component {
             newArray.push(e.stats[index].base_stat)
         )
         // console.log((new Set(newArray)).size !== newArray.length? "Yellow": Math.max.apply(Math,newArray)===val? "green":"blue" +" - "+ index)
-        return (new Set(newArray)).size !== newArray.length? "yellow": Math.max.apply(Math,newArray)===val? "green":"blue";
+        return (new Set(newArray)).size !== newArray.length && Math.max.apply(Math,newArray)===val? "yellow"  : Math.max.apply(Math,newArray)===val  ? "green":"blue";
     }
 
     componentWillUnmount() {
@@ -68,12 +71,11 @@ export default class CardCompare extends Component {
                                     </div>
                                 </div>
                                 {item.stats.map((e,i)=>
-                                    <div key={i} className="row justify-content-center color-white pt-3">
+                                    <div key={i} className="row justify-content-center text-white pt-3">
                                         {console.log(this.getHigherStat(e.base_stat,i))}
-                                        <div hidden={k>0} className="col-6 text-nowrap">{e.stat.name}</div><div className={this.getHigherStat(e.base_stat,i)==="green"?"col-6 text-center border-bottom bg-success":this.getHigherStat(e.base_stat,i)==="yellow"?"col-6 text-center border-bottom bg-warning": "col-6 text-center border-bottom bg-secondary"}>{e.base_stat}</div>
+                                        <div hidden={k>0} className="col-6 text-nowrap text-dark">{e.stat.name}</div><div className={this.getHigherStat(e.base_stat,i)==="green"?"col-6 text-center border-bottom bg-success":this.getHigherStat(e.base_stat,i)==="yellow"?"col-6 text-center border-bottom bg-warning": "col-6 text-center border-bottom bg-secondary"}>{e.base_stat}</div>
                                     </div>
                                 )}
-                                {}
                             </div>
                         )}
                     </div>

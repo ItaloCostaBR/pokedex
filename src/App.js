@@ -10,7 +10,7 @@ import {
  import Footer from './components/Footer';
  import Home from './views/Home';
  import Single from './views/Single';
-//  import Game from './views/Game';
+ import Game from './views/Game';
  import Ranking from './views/Ranking';
  import Compare from './views/Compare';
 
@@ -22,7 +22,8 @@ function App() {
         <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/pokemon/:name" component={Single} />
-            <Route exact path="/game/:pokeCompare" component={Compare} />
+            <Route exact path="/game/:name" component={Single} />
+            <Route exact path="/compare/:pokeCompare" component={Compare} />
             <Route exact path="/ranking" component={Ranking} />
         </Switch>
         <Footer />
