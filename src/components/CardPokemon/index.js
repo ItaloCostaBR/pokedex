@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import imageDefault from '../../assets/images/image_default.png';
 import './style.scss';
+import { Checkbox } from 'rsuite';
 
 export default class CardPokemon extends Component {
     constructor(props) {
@@ -51,6 +52,7 @@ export default class CardPokemon extends Component {
                     <h5 className="card-title text-uppercase">{infoPokemon.name}</h5>
                     <Link to={location => `/pokemon/${infoPokemon.name}`} className="btn btn-warning">Saiba mais</Link>
                 </div>
+                <Checkbox onClick={(e)=>e.preventDefault()}/>
             </div>
         )
     }

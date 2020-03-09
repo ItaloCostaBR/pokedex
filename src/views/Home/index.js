@@ -5,6 +5,7 @@ import './style.scss';
 import { Link } from 'react-router-dom';
 import controlGame from '../../assets/images/icon-control.png';
 import comparaIcon from '../../assets/images/compare.png';
+import { Checkbox } from 'rsuite';
 
 
 
@@ -38,11 +39,15 @@ export default class Home extends Component {
     comparePoke(e,element){
         if(element.currentTarget.children[0].classList.contains("clicked")){
             element.currentTarget.children[0].classList.remove("clicked")
+            element.currentTarget.children[0].children[2].classList.remove("rs-checkbox-checked")
             let nArray = this.state.pokeCompare;
             nArray.splice(nArray.indexOf(e),1);
+             
             this.setState({pokeCompare:nArray})
         }else if(this.state.pokeCompare.length < 3){
+            element.currentTarget.children[0].children[2].classList.add("rs-checkbox-checked")
             element.currentTarget.children[0].classList.add("clicked");
+            
             let nArray = this.state.pokeCompare;
             nArray.push(e);
             this.setState({pokeCompare:nArray})

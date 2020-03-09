@@ -22,7 +22,7 @@ function App() {
         <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/pokemon/:name" component={Single} />
-            <Route exact path="/game/:name" component={Single} />
+            <Route exact path="/game" component={Game} />
             <Route exact path="/compare/:pokeCompare" component={Compare} />
             <Route exact path="/ranking" component={Ranking} />
         </Switch>
