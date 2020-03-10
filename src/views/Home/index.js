@@ -4,6 +4,10 @@ import Loading from '../../components/Loading';
 import './style.scss';
 import { Link } from 'react-router-dom';
 import controlGame from '../../assets/images/icon-control.png';
+import comparaIcon from '../../assets/images/compare.png';
+import { Checkbox } from 'rsuite';
+
+
 
 export default class Home extends Component {
     constructor(props){
@@ -14,7 +18,8 @@ export default class Home extends Component {
             loadingLoadMore: false,
             hasLoadMore: false,
             error: false,
-            nextPageUrl: ''
+            nextPageUrl: '',
+            pokeCompare: []
         }
     }
 
@@ -31,7 +36,24 @@ export default class Home extends Component {
         let response = await fetch(this.state.nextPageUrl);
         return await response.json();
     }
-
+    comparePoke(e,element){
+        if(element.currentTarget.children[0].classList.contains("clicked")){
+            element.currentTarget.children[0].classList.remove("clicked")
+            element.currentTarget.children[0].children[2].classList.remove("rs-checkbox-checked")
+            let nArray = this.state.pokeCompare;
+            nArray.splice(nArray.indexOf(e),1);
+             
+            this.setState({pokeCompare:nArray})
+        }else if(this.state.pokeCompare.length < 3){
+            element.currentTarget.children[0].children[2].classList.add("rs-checkbox-checked")
+            element.currentTarget.children[0].classList.add("clicked");
+            
+            let nArray = this.state.pokeCompare;
+            nArray.push(e);
+            this.setState({pokeCompare:nArray})
+        }
+    
+    }
     loadMore = (e) => {
         let button = e.currentTarget;
         button.disabled = true;
@@ -70,21 +92,25 @@ export default class Home extends Component {
                             Object.entries(data).length > 0
                             ? (
                                 <div className="wrapper-content text-center">
-                                    <Link to="/game">
+                                    <Link to={location => `/game/`}>
                                         <figure className="control-game">
                                             <img src={controlGame} alt="control-game" />
                                         </figure>
                                     </Link>
+                                    <Link hidden={this.state.pokeCompare.length<2} to={location => `/compare/${this.state.pokeCompare.join().replace(",","&").replace(",","&")}`}>
+                                        <figure className="compara-poke">
+                                            <img src={comparaIcon} alt="compara-icon" />
+                                        </figure>
+                                    </Link>
                                     <div className="row" id="wrapper-pokemon">
                                         {data.map((item, key) =>
-                                            <div key={key} className="col-6 col-sm-4 col-lg-3 mb-3 col-card">
+                                            <div key={key} onClick={(element)=>this.comparePoke(item.name,element)} className="col-6 col-sm-4 col-lg-3 mb-3">
                                                 <CardPokemon infoPokemon={item} />
                                             </div>
                                         )}
                                     </div>
                                     {hasLoadMore ? <button type="button" className="btn btn-danger mt-3" onClick={element => this.loadMore(element)}>{loadingLoadMore ? 'Carregando...' : 'Ver mais'}</button> : ''}
-                                </div>
-                            )
+                                </div>)
                             : <h3 className="text-center">Nenhum Pokémon encontrado.</h3>
                         )
                     }

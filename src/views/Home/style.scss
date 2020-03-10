@@ -10,6 +10,16 @@
     }
 }
 
+@keyframes easeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+
 #wrapper-pokemon {
     margin: 0 -10px;
 
@@ -22,6 +32,15 @@
 
         .col-card {
             padding: 0 15px;
+        }
+    }
+    .poke{
+        &:hover{
+            cursor: pointer;
+        }
+        &.clicked{
+            transform: scale(1.05);
+            border: solid 1px gray;
         }
     }
 }

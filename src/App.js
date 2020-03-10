@@ -12,6 +12,7 @@ import {
  import Single from './views/Single';
  import Game from './views/Game';
  import Ranking from './views/Ranking';
+ import Compare from './views/Compare';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route exact path="/" component={Home} />
             <Route exact path="/pokemon/:name" component={Single} />
             <Route exact path="/game" component={Game} />
+            <Route exact path="/compare/:pokeCompare" component={Compare} />
             <Route exact path="/ranking" component={Ranking} />
         </Switch>
         <Footer />
